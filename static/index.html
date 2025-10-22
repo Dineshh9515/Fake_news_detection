@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fake News Detector</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/assets/styles.css" />
+</head>
+<body>
+  <div id="app">
+    <nav class="nav glass">
+      <div class="brand">
+        <div class="logo">🕵️‍♂️</div>
+        <div class="title">Fake News Detector</div>
+      </div>
+      <div class="links">
+        <a href="https://huggingface.co/models" target="_blank" rel="noopener">Models</a>
+        <a href="https://fastapi.tiangolo.com" target="_blank" rel="noopener">FastAPI</a>
+        <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </nav>
+
+    <main class="container">
+      <section class="hero">
+        <h1 class="headline">Spot misleading claims instantly</h1>
+        <p class="subtitle">Paste any statement and get a confidence-backed judgement powered by transformer models.</p>
+      </section>
+
+      <section class="card glass fade-in-up" id="card">
+        <div class="input-group">
+          <textarea id="text" rows="5" placeholder="Paste a claim or headline to analyze..."></textarea>
+          <div class="actions">
+            <button id="analyze" class="btn primary">
+              <span class="btn-label">Analyze</span>
+              <span class="loader" aria-hidden></span>
+            </button>
+            <button id="clear" class="btn ghost">Clear</button>
+          </div>
+        </div>
+
+        <div id="result" class="result hidden">
+          <div class="meter">
+            <div class="needle" id="needle"></div>
+            <div class="ticks">
+              <span>Fake</span>
+              <span>Not Fake</span>
+            </div>
+          </div>
+          <div class="label" id="label">—</div>
+          <div class="confidence" id="confidence">—</div>
+
+          <div class="breakdown" id="breakdown"></div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>Built with FastAPI + Transformers</span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="/static/assets/script.js"></script>
+</body>
+</html>
