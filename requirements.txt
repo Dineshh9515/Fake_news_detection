@@ -1,7 +1,10 @@
 nltk
 numpy
 pandas
-re
-sklearn
+scikit-learn
 torch
 transformers
+fastapi
+uvicorn[standard]
+aiofiles
+pydantic
