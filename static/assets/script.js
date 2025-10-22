@@ -36,10 +36,21 @@ async function predict(){
       headers:{ 'Content-Type':'application/json' },
       body: JSON.stringify({ text })
     });
-    const data = await res.json();
+
+    // Try to safely parse JSON; handle empty/non-JSON bodies gracefully
+    const raw = await res.text();
+    let data = null;
+    try { data = raw ? JSON.parse(raw) : null; } catch(_) { data = null; }
+
     if(!res.ok){
-      throw new Error(data.error || 'Request failed');
+      const msg = (data && (data.error || data.detail)) || `Request failed (${res.status})`;
+      throw new Error(msg);
     }
+
+    if(!data){
+      throw new Error('Empty response from server');
+    }
+
     resultEl.classList.remove('hidden');
     labelEl.textContent = data.label;
     confEl.textContent = `Confidence: ${(data.confidence*100).toFixed(1)}%`;

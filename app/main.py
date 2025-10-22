@@ -40,26 +40,29 @@ async def index():
 
 @app.post("/api/predict")
 async def predict(req: PredictRequest):
-    text = (req.text or "").strip()
-    if not text:
-        return JSONResponse({"error": "Text is required."}, status_code=400)
+    try:
+        text = (req.text or "").strip()
+        if not text:
+            return JSONResponse({"error": "Text is required."}, status_code=400)
 
-    classifier = get_classifier()
+        classifier = get_classifier()
 
-    labels = ["Fake", "Not Fake"]
-    hypothesis_template = "This statement is {}."
+        labels = ["Fake", "Not Fake"]
+        hypothesis_template = "This statement is {}."
 
-    result = classifier(text, labels, hypothesis_template=hypothesis_template, multi_label=False)
+        result = classifier(text, labels, hypothesis_template=hypothesis_template, multi_label=False)
 
-    # Map to label/confidence
-    top_label = result["labels"][0]
-    score = float(result["scores"][0])
+        # Map to label/confidence
+        top_label = result["labels"][0]
+        score = float(result["scores"][0])
 
-    return {
-        "label": top_label,
-        "confidence": score,
-        "all": [{"label": l, "score": float(s)} for l, s in zip(result["labels"], result["scores"])],
-    }
+        return {
+            "label": top_label,
+            "confidence": score,
+            "all": [{"label": l, "score": float(s)} for l, s in zip(result["labels"], result["scores"])],
+        }
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
 
 
 @app.get("/health")
